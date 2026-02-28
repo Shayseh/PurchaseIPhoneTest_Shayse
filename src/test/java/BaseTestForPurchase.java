@@ -1,0 +1,35 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.Test;
+import org.w3c.dom.html.HTMLInputElement;
+
+import java.time.Duration;
+
+public class BaseTestForPurchase {
+
+    WebDriver driver;
+
+    @Test
+    public void LoginToNdosiWebsite() {
+
+        driver = new EdgeDriver();
+        driver.get("https://ndosisimplifiedautomation.vercel.app/");
+        driver.manage().window().maximize();
+        driver.findElement(By.xpath("//*[@id=\"app-root\"]/nav/div[1]/div[3]/button/span[2]")).click();
+        driver.findElement(By.id("login-email")).sendKeys("Dayne@gmail.com");
+        driver.findElement(By.id("login-password")).sendKeys("@11712066");
+        driver.findElement(By.id("login-submit")).click();
+
+        new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        driver.findElement(By.xpath("//button[contains(@class,'user-pill')]"));
+        HTMLInputElement user = null;
+        user.click();
+
+
+    }
+
+}
