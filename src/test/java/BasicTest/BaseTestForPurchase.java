@@ -1,3 +1,5 @@
+package BasicTest;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,8 +9,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.w3c.dom.Element;
-import org.w3c.dom.html.HTMLInputElement;
 
 import java.time.Duration;
 
@@ -22,7 +22,13 @@ public class BaseTestForPurchase {
         driver = new EdgeDriver();
         driver.get("https://ndosisimplifiedautomation.vercel.app/");
         driver.manage().window().maximize();
-        driver.findElement(By.xpath("//*[@id=\"app-root\"]/nav/div[1]/div[3]/button/span[2]")).click();
+
+        //Targets the button, not just the span
+        //Uses visible UI text
+        //Less dependent on styling
+        //Stable even if layout changes slightly
+        driver.findElement(By.xpath("//button[.//span[text()='Login']]")).click();
+
         driver.findElement(By.id("login-email")).sendKeys("Dayne@gmail.com");
         driver.findElement(By.id("login-password")).sendKeys("@11712066");
         driver.findElement(By.id("login-submit")).click();
@@ -42,6 +48,29 @@ public class BaseTestForPurchase {
         driver.findElement(By.id("deviceType"));
         Select device = new Select(driver.findElement(By.id("deviceType")));
         device.selectByVisibleText("Phone");
+
+        driver.findElements(By.id("brand"));
+        Select brand = new Select(driver.findElement(By.id("brand")));
+        brand.selectByVisibleText("Apple");
+
+        //Selenium cannot visually confirm images like a user, so the test verifies the image by checking its attributes such as alt or src.
+        // This confirms that the correct image loads after selecting Apple.
+        WebElement appleImage =
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[contains(@alt,'Apple')]")));
+        Assert.assertTrue(appleImage.isDisplayed());
+
+        String priceBefore = driver.findElement(By.id("unit-price-value")).getText();
+
+        driver.findElement(By.id("storage-128GB")).click();
+
+        String priceAfter = driver.findElement(By.id("unit-price-value")).getText();
+
+        Assert.assertNotEquals(priceBefore, priceAfter);
+
+
+
+
+
 
 
     }
