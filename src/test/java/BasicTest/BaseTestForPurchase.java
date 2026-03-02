@@ -41,7 +41,7 @@ public class BaseTestForPurchase {
         Assert.assertTrue(welcomeText.isDisplayed());
 
         driver.findElement(By.cssSelector(".nav-dropdown-trigger")).click();
-        driver.findElement(By.xpath("//button[contains(.,'Learning Materials')]")).click();
+        driver.findElement(By.xpath("//span[contains(.,'💡')]")).click();
 
         driver.findElement(By.id("tab-btn-web")).click();
 
