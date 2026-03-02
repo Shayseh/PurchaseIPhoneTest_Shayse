@@ -1,5 +1,6 @@
-package BasicTest;
+package Tests;
 
+import Base.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -13,16 +14,11 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class BaseTestForPurchase {
+public class PurchaseTest extends BaseTest {
 
-    WebDriver driver;
 
     @Test
-    public void LoginToNdosiWebsite() {
-
-        driver = new EdgeDriver();
-        driver.get("https://ndosisimplifiedautomation.vercel.app/");
-        driver.manage().window().maximize();
+    public void PurchaseIPhoneUsingNdosiWebsite() {
 
         //Targets the button, not just the span
         //Uses visible UI text
@@ -142,13 +138,5 @@ public class BaseTestForPurchase {
     }
 
 }
-
-
-
-
-
-
-
-
 
 
