@@ -3,9 +3,7 @@ package Tests;
 import Base.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -20,21 +18,13 @@ public class PurchaseTest extends BaseTest {
     @Test
     public void PurchaseIPhoneUsingNdosiWebsite() {
 
-        //Targets the button, not just the span
-        //Uses visible UI text
-        //Less dependent on styling
-        //Stable even if layout changes slightly
-        driver.findElement(By.xpath("//button[.//span[text()='Login']]")).click();
-
-        driver.findElement(By.id("login-email")).sendKeys("Dayne@gmail.com");
-        driver.findElement(By.id("login-password")).sendKeys("@11712066");
-        driver.findElement(By.id("login-submit")).click();
+        loginPage.clickLoginButton();
+        loginPage.enterEmail("dayne@gmail.com");
+        loginPage.enterPassword("@11712066");
+        loginPage.clickSubmit();
+        loginPage.verifyLoginSuccess("Welcome back, Dayne! \uD83D\uDC4B");
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-
-        WebElement welcomeText = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(.,'Welcome back')]")));
-        Assert.assertTrue(welcomeText.isDisplayed());
 
         driver.findElement(By.cssSelector(".nav-dropdown-trigger")).click();
         driver.findElement(By.xpath("//span[contains(.,'💡')]")).click();
@@ -133,7 +123,7 @@ public class PurchaseTest extends BaseTest {
         WebElement address = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//div[contains(text(),'123 Test Street, Test City, 12345')]")));
 
-        Assert.assertEquals(address.getText(),"123 Test Street, Test City, 12345");
+        Assert.assertEquals(address.getText(), "123 Test Street, Test City, 12345");
 
     }
 
