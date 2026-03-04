@@ -26,66 +26,32 @@ public class PurchaseTest extends BaseTest {
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
-        driver.findElement(By.cssSelector(".nav-dropdown-trigger")).click();
-        driver.findElement(By.xpath("//span[contains(.,'💡')]")).click();
+        navigateToInventoryFormPage.clickLearnDropdown();
+        navigateToInventoryFormPage.clickLearningMaterials();
+        navigateToInventoryFormPage.clickWebAutomationAdvance();
 
-        driver.findElement(By.id("tab-btn-web")).click();
+        fillInInventoryForm.selectDeviceType("Phone");
+        fillInInventoryForm.selectBrandType("Apple");
+        fillInInventoryForm.verifyAppleBrandOptionDisplayed();
+        fillInInventoryForm.verifyUnitPrice("R400.00");
+        fillInInventoryForm.select128GBStorage();
+        fillInInventoryForm.verifyUnitPrice("R480.00");
+        fillInInventoryForm.selectColor("Blue");
+        fillInInventoryForm.verifySelectedColorDisplayed("Blue");
+        fillInInventoryForm.enterQuantity("2");
+        fillInInventoryForm.verifySubTotalValue("R960.00");
+        fillInInventoryForm.fillInAddress("123 Test Street, Test City, 12345");
+        fillInInventoryForm.clickNextButton();
+        fillInInventoryForm.clickShippingExpressOption();
+        fillInInventoryForm.verifyBreakdownShippingValue("R25.00");
+        fillInInventoryForm.clickWarranty1yrOption();
+        fillInInventoryForm.verifyBreakdownWarrantyValue("R49.00");
+        fillInInventoryForm.verifyBreakdownTotalValue("R1034.00");
+        fillInInventoryForm.enterDiscountCode("SAVE10");
+        fillInInventoryForm.clickApplyDiscountButton();
+        fillInInventoryForm.verifyBreakdownTotalValue("R930.60");
+        fillInInventoryForm.clickPurchaseDeviceButton();
 
-        driver.findElement(By.id("deviceType"));
-        Select device = new Select(driver.findElement(By.id("deviceType")));
-        device.selectByVisibleText("Phone");
-
-        driver.findElements(By.id("brand"));
-        Select brand = new Select(driver.findElement(By.id("brand")));
-        brand.selectByVisibleText("Apple");
-
-        //Selenium cannot visually confirm images like a user, so the test verifies the image by checking its attributes such as alt or src.
-        // This confirms that the correct image loads after selecting Apple.
-        WebElement appleImage =
-                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[contains(@alt,'Apple')]")));
-        Assert.assertTrue(appleImage.isDisplayed());
-
-        String priceBefore = driver.findElement(By.id("unit-price-value")).getText();
-        driver.findElement(By.id("storage-128GB")).click();
-        String priceAfter = driver.findElement(By.id("unit-price-value")).getText();
-        Assert.assertEquals(priceAfter, "R480.00");
-
-        driver.findElement(By.id("color"));
-        Select color = new Select(driver.findElement(By.id("color")));
-        color.selectByVisibleText("Blue");
-
-        WebElement selectedColor = driver.findElement(By.xpath("//strong[text()='blue']"));
-        Assert.assertTrue(selectedColor.isDisplayed());
-
-        String priceBeforeQuantity = driver.findElement(By.id("subtotal-value")).getText();
-        driver.findElement(By.id("quantity")).sendKeys("2");
-        String priceAfterQuantity = driver.findElement(By.id("subtotal-value")).getText();
-        Assert.assertEquals(priceAfterQuantity, "R960.00");
-
-        driver.findElement(By.id("address")).sendKeys("123 Test Street, Test City, 12345");
-
-        driver.findElement(By.id("inventory-next-btn")).click();
-
-        String beforeTotalPrice = driver.findElement(By.id("breakdown-total-value")).getText();
-
-        String beforeShippingPrice = driver.findElement(By.id("breakdown-shipping-value")).getText();
-        driver.findElement(By.id("shipping-express")).click();
-        String afterShippingPrice = driver.findElement(By.id("breakdown-shipping-value")).getText();
-        Assert.assertEquals(afterShippingPrice, "R25.00");
-
-        String beforeWarrantyPrice = driver.findElement(By.id("breakdown-warranty-value")).getText();
-        driver.findElement(By.id("warranty-1yr")).click();
-        String afterWarrantyPrice = driver.findElement(By.id("breakdown-warranty-value")).getText();
-        Assert.assertEquals(afterWarrantyPrice, "R49.00");
-
-        String afterTotalPrice = driver.findElement(By.id("breakdown-total-value")).getText();
-        Assert.assertEquals(afterTotalPrice, "R1034.00");
-
-        String beforeDiscountPrice = driver.findElement(By.id("breakdown-total-value")).getText();
-        driver.findElement(By.id("discount-code")).sendKeys("SAVE10");
-        driver.findElement(By.id("apply-discount-btn")).click();
-        String afterDiscountPrice = driver.findElement(By.id("breakdown-total-value")).getText();
-        Assert.assertEquals(afterDiscountPrice, "R930.60");
 
         driver.findElement(By.id("purchase-device-btn")).click();
         WebElement confirmationMessage = wait.until(
