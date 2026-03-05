@@ -6,6 +6,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.safari.SafariDriver;
+import org.testng.annotations.AfterClass;
 
 public class BrowserFactory {
 
@@ -26,6 +27,13 @@ public class BrowserFactory {
         driver.manage().window().maximize();
         driver.get(url);
         return driver;
+    }
+
+    @AfterClass
+    public void closeBrowser() {
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
 }

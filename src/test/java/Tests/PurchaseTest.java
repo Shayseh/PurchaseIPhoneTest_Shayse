@@ -1,17 +1,18 @@
 package Tests;
 
 import Base.BaseTest;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class PurchaseTest extends BaseTest {
 
 
-    @Test
-    public void PurchaseIPhoneUsingNdosiWebsite() {
+    @Test(dataProvider = "testData")
+    public void PurchaseIPhoneUsingNdosiWebsite(String email, String password, String address) {
 
         loginPage.clickLoginButton();
-        loginPage.enterEmail("dayne@gmail.com");
-        loginPage.enterPassword("@11712066");
+        loginPage.enterEmail(email);
+        loginPage.enterPassword(password);
         loginPage.clickSubmit();
         loginPage.verifyLoginSuccess("Welcome back, Dayne! \uD83D\uDC4B");
 
@@ -31,7 +32,7 @@ public class PurchaseTest extends BaseTest {
         fillInInventoryForm.verifySelectedColorDisplayed("Blue");
         fillInInventoryForm.enterQuantity("2");
         fillInInventoryForm.verifySubTotalValue("R960.00");
-        fillInInventoryForm.fillInAddress("123 Test Street, Test City, 12345");
+        fillInInventoryForm.fillInAddress(address);
         fillInInventoryForm.clickNextButton();
         fillInInventoryForm.clickShippingExpressOption();
         fillInInventoryForm.verifyBreakdownShippingValue("R25.00");
@@ -52,6 +53,15 @@ public class PurchaseTest extends BaseTest {
         viewInvoice.verifyInvoiceStatusPaid();
     }
 
+    @DataProvider(name = "testData")
+    public Object[][] getData() {
+        return new Object[][]{
+                {"dayne@gmail.com", "@11712066", "123 Test Street, Test City, 12345"}
+        };
+    }
+
 }
+
+
 
 
