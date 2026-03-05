@@ -59,12 +59,10 @@ public class LoginPage {
     }
 
     public void verifyLoginSuccess(String expectedMessage) {
-        WebElement element = wait.until(ExpectedConditions.visibilityOf(welcomeBackMessage));
-        String actualMessage = element.getText();
+        wait.until(ExpectedConditions.visibilityOf(welcomeBackMessage));
+        String actualMessage = welcomeBackMessage.getText();
         if (!actualMessage.equals(expectedMessage)) {
             throw new AssertionError("Login failed. Expected: " + expectedMessage + ", but got: " + actualMessage);
         }
     }
-
-
 }

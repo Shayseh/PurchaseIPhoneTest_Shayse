@@ -41,12 +41,4 @@ public class NavigateToInventoryFormPage {
         wait.until(ExpectedConditions.elementToBeClickable(webAutomationAdvanceButton)).click();
     }
 
-
-
-
-
-
-
-
-
 }

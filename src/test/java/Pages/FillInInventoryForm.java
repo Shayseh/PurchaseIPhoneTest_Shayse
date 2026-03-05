@@ -75,8 +75,8 @@ public class FillInInventoryForm {
 
     // Selects an option from the device type <select> by visible text
     public void selectDeviceType(String deviceType) {
-        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(deviceTypeDropdown));
-        Select select = new Select(dropdown);
+        wait.until(ExpectedConditions.elementToBeClickable(deviceTypeDropdown));
+        Select select = new Select(deviceTypeDropdown);
         select.selectByVisibleText(deviceType);
     }
 
@@ -109,90 +109,90 @@ public class FillInInventoryForm {
 
     // Select 128GB storage option
     public void select128GBStorage() {
-        WebElement storageOption = wait.until(ExpectedConditions.elementToBeClickable(selectStorageOption128GB));
-        storageOption.click();
+        wait.until(ExpectedConditions.elementToBeClickable(selectStorageOption128GB))
+                .click();
     }
 
     public void selectColor(String color) {
-        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(colorDropdown));
-                Select select = new Select(dropdown);
-                select.selectByVisibleText(color);
+        wait.until(ExpectedConditions.elementToBeClickable(colorDropdown));
+        Select select = new Select(colorDropdown);
+        select.selectByVisibleText(color);
     }
 
     public void verifySelectedColorDisplayed(String color) {
-        WebElement selectedColor = wait.until(ExpectedConditions.visibilityOf(selectedColorDisplayed));
-        if (!selectedColor.isDisplayed()) {
+        wait.until(ExpectedConditions.visibilityOf(selectedColorDisplayed));
+        if (!selectedColorDisplayed.isDisplayed()) {
             throw new AssertionError("Selected color " + color + " is not displayed.");
         }
     }
 
     public void verifySubTotalValue(String expectedSubtotal) {
-        WebElement subtotalElement = wait.until(ExpectedConditions.visibilityOf(subtotalValue));
-        String actualSubtotal = subtotalElement.getText();
+        wait.until(ExpectedConditions.visibilityOf(subtotalValue));
+        String actualSubtotal = subtotalValue.getText();
         if (!actualSubtotal.equals(expectedSubtotal)) {
             throw new AssertionError(String.format("Subtotal value mismatch. Expected: %s, but got: %s", expectedSubtotal, actualSubtotal));
         }
     }
 
-        public void enterQuantity(String quantity) {
-            wait.until(ExpectedConditions.elementToBeClickable(quantityInputField))
-                    .sendKeys(quantity);
-        }
+    public void enterQuantity(String quantity) {
+        wait.until(ExpectedConditions.elementToBeClickable(quantityInputField))
+                .sendKeys(quantity);
+    }
 
-        public void fillInAddress(String address) {
-            wait.until(ExpectedConditions.elementToBeClickable(addressInputField))
-                    .sendKeys(address);
-        }
+    public void fillInAddress(String address) {
+        wait.until(ExpectedConditions.elementToBeClickable(addressInputField))
+                .sendKeys(address);
+    }
 
-        public void clickNextButton() {
-            wait.until(ExpectedConditions.elementToBeClickable(nextButton))
-                    .click();
-        }
+    public void clickNextButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(nextButton))
+                .click();
+    }
 
-        public void verifyBreakdownTotalValue(String expectedTotal) {
-            WebElement totalElement = wait.until(ExpectedConditions.visibilityOf(breakdownTotalValue));
-            String actualTotal = totalElement.getText();
-            if (!actualTotal.equals(expectedTotal)) {
-                throw new AssertionError(String.format("Total price mismatch. Expected: %s, but got: %s", expectedTotal, actualTotal));
-            }
+    public void verifyBreakdownTotalValue(String expectedTotal) {
+        wait.until(ExpectedConditions.visibilityOf(breakdownTotalValue));
+        String actualTotal = breakdownTotalValue.getText();
+        if (!actualTotal.equals(expectedTotal)) {
+            throw new AssertionError(String.format("Total price mismatch. Expected: %s, but got: %s", expectedTotal, actualTotal));
         }
+    }
 
-        public void verifyBreakdownShippingValue(String expectedShipping) {
-            WebElement shippingElement = wait.until(ExpectedConditions.visibilityOf(breakdownShippingValue));
-            String actualShipping = shippingElement.getText();
-            if (!actualShipping.equals(expectedShipping)) {
-                throw new AssertionError(String.format("Shipping price mismatch. Expected: %s, but got: %s", expectedShipping, actualShipping));
-            }
+    public void verifyBreakdownShippingValue(String expectedShipping) {
+        wait.until(ExpectedConditions.visibilityOf(breakdownShippingValue));
+        String actualShipping = breakdownShippingValue.getText();
+        if (!actualShipping.equals(expectedShipping)) {
+            throw new AssertionError(String.format("Shipping price mismatch. Expected: %s, but got: %s", expectedShipping, actualShipping));
         }
+    }
 
-        public void clickShippingExpressOption() {
-            wait.until(ExpectedConditions.elementToBeClickable(shippingExpressOption)).click();
-        }
+    public void clickShippingExpressOption() {
+        wait.until(ExpectedConditions.elementToBeClickable(shippingExpressOption)).click();
+    }
 
-        public void verifyBreakdownWarrantyValue(String expectedWarranty) {
-            WebElement warrantyElement = wait.until(ExpectedConditions.visibilityOf(breakdownWarrantyValue));
-            String actualWarranty = warrantyElement.getText();
-            if (!actualWarranty.equals(expectedWarranty)) {
-                throw new AssertionError(String.format("Warranty price mismatch. Expected: %s, but got: %s", expectedWarranty, actualWarranty));
-            }
+    public void verifyBreakdownWarrantyValue(String expectedWarranty) {
+        wait.until(ExpectedConditions.visibilityOf(breakdownWarrantyValue));
+        String actualWarranty = breakdownWarrantyValue.getText();
+        if (!actualWarranty.equals(expectedWarranty)) {
+            throw new AssertionError(String.format("Warranty price mismatch. Expected: %s, but got: %s", expectedWarranty, actualWarranty));
         }
+    }
 
-        public void clickWarranty1yrOption() {
-            wait.until(ExpectedConditions.elementToBeClickable(warranty1yrOption)).click();
-        }
+    public void clickWarranty1yrOption() {
+        wait.until(ExpectedConditions.elementToBeClickable(warranty1yrOption)).click();
+    }
 
-        public void enterDiscountCode(String discountCode) {
-            wait.until(ExpectedConditions.elementToBeClickable(discountCodeInputField))
-                    .sendKeys(discountCode);
-        }
+    public void enterDiscountCode(String discountCode) {
+        wait.until(ExpectedConditions.elementToBeClickable(discountCodeInputField))
+                .sendKeys(discountCode);
+    }
 
-        public void clickApplyDiscountButton() {
-            wait.until(ExpectedConditions.elementToBeClickable(applyDiscountButton)).click();
-        }
+    public void clickApplyDiscountButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(applyDiscountButton)).click();
+    }
 
-        public void clickPurchaseDeviceButton() {
-            wait.until(ExpectedConditions.elementToBeClickable(purchaseDeviceButton)).click();
-        }
+    public void clickPurchaseDeviceButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(purchaseDeviceButton)).click();
+    }
 
 }
 
