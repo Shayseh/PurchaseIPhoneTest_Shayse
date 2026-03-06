@@ -7,6 +7,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 
 public class BrowserFactory {
 
@@ -29,7 +30,7 @@ public class BrowserFactory {
         return driver;
     }
 
-    @AfterClass
+    @AfterMethod// This method will run after each test method in the class
     public void closeBrowser() {
         if (driver != null) {
             driver.quit();

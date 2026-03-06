@@ -1,13 +1,13 @@
 package Tests;
 
 import Base.BaseTest;
-import org.testng.annotations.DataProvider;
+import Utilities.ReadXSLdata;
 import org.testng.annotations.Test;
 
 public class PurchaseTest extends BaseTest {
 
 
-    @Test(dataProvider = "testData")
+    @Test(dataProviderClass = ReadXSLdata.class, dataProvider = "testData")
     public void PurchaseIPhoneUsingNdosiWebsite(String email, String password, String address) {
 
         loginPage.clickLoginButton();
@@ -51,13 +51,6 @@ public class PurchaseTest extends BaseTest {
         viewInvoice.clickInvoiceDetails();
         viewInvoice.switchToInvoiceWindow();
         viewInvoice.verifyInvoiceStatusPaid();
-    }
-
-    @DataProvider(name = "testData")
-    public Object[][] getData() {
-        return new Object[][]{
-                {"dayne@gmail.com", "@11712066", "123 Test Street, Test City, 12345"}
-        };
     }
 
 }
