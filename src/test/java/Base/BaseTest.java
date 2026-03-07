@@ -22,7 +22,7 @@ public class BaseTest {
     public FillInInventoryForm fillInInventoryForm;
     public ViewInvoice viewInvoice;
 
-    @BeforeMethod// This method will run before each test method in the class
+    @BeforeClass// This method will run before any of the test methods in the class
     public void setUp() {
         driver = browserFactory.startBrowser(browserChoice, url);
         loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -31,7 +31,7 @@ public class BaseTest {
         viewInvoice = PageFactory.initElements(driver, ViewInvoice.class);
     }
 
-    @AfterMethod// This method will run after each test method in the class
+    @AfterClass// This method will run after all the test methods in the class have run
     public void tearDown(){
         browserFactory.closeBrowser();
     }

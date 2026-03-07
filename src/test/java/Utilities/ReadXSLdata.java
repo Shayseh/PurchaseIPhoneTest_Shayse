@@ -18,35 +18,23 @@ public class ReadXSLdata {
         File file = new File(System.getProperty("user.dir") + "/src/test/resources/TestData/testData.xlsx"); //Create a File object for the Excel file
         FileInputStream fileInputStream = new FileInputStream(file);//Create a FileInputStream to read the Excel file
         Workbook workbook = WorkbookFactory.create(fileInputStream); //Create a Workbook object using the FileInputStream
-
         Sheet sheetName = workbook.getSheet(excelSheetName); //Get the sheet with the same name as the test method
 
-        // Fallback to first sheet if the exact sheet name is not found
-        if (sheetName == null) {
-            if (workbook.getNumberOfSheets() > 0) {
-                sheetName = workbook.getSheetAt(0);
-            } else {
-                throw new RuntimeException("No sheets found in the Excel file!");
-            }
-        }
-
-
+        int rowRows = sheetName.getLastRowNum(); //Get the number of rows in the sheet
         Row rowCells = sheetName.getRow(0); //Get the first row to determine the number of columns
+        int columnCount = rowCells.getLastCellNum(); //Get the number of columns in the sheet
 
+        DataFormatter formatter = new DataFormatter();
+        String testData[][] = new String[rowRows][columnCount];
 
-        int totalColumns = rowCells.getLastCellNum(); //Get the total number of columns in the sheet
-
-        DataFormatter formatter = new DataFormatter();//Create a DataFormatter to format cell values as strings
-
-        // Return only 1 row of test data (first data row only)
-        String testData[][] = new String[1][totalColumns]; //Create a 2D array with only 1 row of test data
-
-        Row firstDataRow = sheetName.getRow(1); //Get the first data row (row 1, since row 0 is header)
-        if (firstDataRow != null) {//Check if the first data row is not null
-            for (int j = 0; j < totalColumns; j++) { //Iterate through each cell
-                testData[0][j] = formatter.formatCellValue(firstDataRow.getCell(j)); //Format the cell value as a string and store it in the testData array
+        for (int i = 1; i <= rowRows; i++) { //Loop through the rows, starting from 1 to skip the header
+            Row row = sheetName.getRow(i); //Get the current row
+            for (int j = 0; j < columnCount; j++) { //Loop through the columns
+                Cell cell = row.getCell(j); //Get the current cell
+                testData[i - 1][j] = formatter.formatCellValue(cell); //Store the cell value in the testData array, using DataFormatter to handle different cell types
             }
         }
+
 
         return testData; //Return the test data array
     }

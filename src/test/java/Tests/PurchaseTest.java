@@ -52,6 +52,7 @@ public class PurchaseTest extends BaseTest {
         viewInvoice.switchToInvoiceWindow();
         viewInvoice.verifyInvoiceStatusPaid();
     }
+    
 
 }
 
