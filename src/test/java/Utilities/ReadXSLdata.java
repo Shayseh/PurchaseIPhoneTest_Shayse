@@ -1,48 +1,58 @@
 package Utilities;
 
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.testng.annotations.DataProvider;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.lang.reflect.Method;
 
 public class ReadXSLdata {
 
+    private static final String TEST_DATA_PATH = System.getProperty("user.dir")
+            + "/src/test/resources/Testdata/testData.xlsx";
 
-    @DataProvider(name = "testData")
-    public String[][] getData(String sheetName) throws IOException {
+    @DataProvider(name = "loginData")
+    public Object[][] loginData() throws IOException {
+        return getData("enterLoginDetails");
+    }
 
-        File file = new File(System.getProperty("user.dir") + "/src/test/resources/TestData/testData.xlsx");
-        FileInputStream fileInputStream = new FileInputStream(file);
-        Workbook workbook = WorkbookFactory.create(fileInputStream);
+    @DataProvider(name = "addressData")
+    public Object[][] addressData() throws IOException {
+        return getData("fillInAddress");
+    }
 
-        Sheet sheet = workbook.getSheet(sheetName); // ✅ correct
-
-        if (sheet == null) {
-            throw new RuntimeException("Sheet NOT FOUND: " + sheetName);
-        }
-
-        int rowCount = sheet.getLastRowNum();
-        int columnCount = sheet.getRow(0).getLastCellNum();
-
-        String[][] data = new String[rowCount][columnCount];
-
+    public Object[][] getData(String sheetName) throws IOException {
+        File file = new File(TEST_DATA_PATH);
         DataFormatter formatter = new DataFormatter();
 
-        for (int i = 1; i <= rowCount; i++) {
-            Row row = sheet.getRow(i);
+        try (FileInputStream fileInputStream = new FileInputStream(file);
+             Workbook workbook = WorkbookFactory.create(fileInputStream)) {
 
-            for (int j = 0; j < columnCount; j++) {
-                Cell cell = row.getCell(j);
-                data[i - 1][j] = formatter.formatCellValue(cell);
+            Sheet sheet = workbook.getSheet(sheetName);
+            if (sheet == null) {
+                throw new RuntimeException("Sheet NOT FOUND: " + sheetName);
             }
-        }
 
-        workbook.close();
-        return data;
+            Row headerRow = sheet.getRow(0);
+            if (headerRow == null) {
+                throw new RuntimeException("Header row missing in sheet: " + sheetName);
+            }
+
+            int rowCount = sheet.getLastRowNum();
+            int columnCount = headerRow.getLastCellNum();
+            Object[][] data = new Object[rowCount][columnCount];
+
+            for (int i = 1; i <= rowCount; i++) {
+                Row row = sheet.getRow(i);
+                for (int j = 0; j < columnCount; j++) {
+                    Cell cell = (row == null) ? null : row.getCell(j);
+                    data[i - 1][j] = formatter.formatCellValue(cell);
+                }
+            }
+
+            return data;
+        }
     }
 
 }

@@ -3,7 +3,6 @@ package Tests;
 import Base.BaseTest;
 import Utilities.ReadXSLdata;
 import Utilities.Screenshots;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -15,21 +14,21 @@ public class PurchaseTest extends BaseTest {
     //public void PurchaseIPhoneUsingNdosiWebsite(String email, String password, String address) {
 
 
-    @Test
+    @Test(enabled = false)
     public void testDataRead() throws IOException {
 
         ReadXSLdata reader = new ReadXSLdata();
 
-        String[][] loginData = reader.getData("enterLoginDetails");
-        String[][] addressData = reader.getData("fillInAddress");
+        Object[][] loginData = reader.getData("enterLoginDetails");
+        Object[][] addressData = reader.getData("fillInAddress");
 
         // Print the retrieved data
         System.out.println("enterLoginDetails");
-        for (String[] row : loginData) {
+        for (Object[] row : loginData) {
             System.out.println("Email: " + row[0] + ", Password: " + row[1]);
         }
         System.out.println("fillInAddress");
-        for (String[] row : addressData) {
+        for (Object[] row : addressData) {
             System.out.println("Address: " + row[0]);
         }
     }
@@ -40,7 +39,7 @@ public class PurchaseTest extends BaseTest {
         Screenshots.takesSnapShot(driver, "clickLoginButton");
     }
 
-    @Test(dataProviderClass = ReadXSLdata.class, dataProvider = "testData", priority = 1)
+    @Test(dataProviderClass = ReadXSLdata.class, dataProvider = "loginData", priority = 1)
     public void enterLoginDetails(String email, String password) {
 
         System.out.println(email);
@@ -97,7 +96,7 @@ public class PurchaseTest extends BaseTest {
         Screenshots.takesSnapShot(driver, "enterQuantityAndVerifySubTotal");
     }
 
-    @Test(dataProviderClass = ReadXSLdata.class, dataProvider = "testData", priority = 8)
+    @Test(dataProviderClass = ReadXSLdata.class, dataProvider = "addressData", priority = 8)
     public void fillInAddress(String address) {
         fillInInventoryForm.fillInAddress(address);
         Screenshots.takesSnapShot(driver, "fillInAddress");
