@@ -1,6 +1,7 @@
 package Utilities;
 
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.testng.annotations.DataProvider;
 
 import java.io.File;
@@ -10,34 +11,42 @@ import java.lang.reflect.Method;
 
 public class ReadXSLdata {
 
+
     @DataProvider(name = "testData")
-    public String[][] getData(Method method) throws IOException {
+    public String[][] getData(String sheetName) throws IOException {
 
-        String excelSheetName = method.getName(); //Get the name of the test method
+        File file = new File(System.getProperty("user.dir") + "/src/test/resources/TestData/testData.xlsx");
+        FileInputStream fileInputStream = new FileInputStream(file);
+        Workbook workbook = WorkbookFactory.create(fileInputStream);
 
-        File file = new File(System.getProperty("user.dir") + "/src/test/resources/TestData/testData.xlsx"); //Create a File object for the Excel file
-        FileInputStream fileInputStream = new FileInputStream(file);//Create a FileInputStream to read the Excel file
-        Workbook workbook = WorkbookFactory.create(fileInputStream); //Create a Workbook object using the FileInputStream
-        Sheet sheetName = workbook.getSheet(excelSheetName); //Get the sheet with the same name as the test method
+        Sheet sheet = workbook.getSheet(sheetName); // ✅ correct
 
-        int rowRows = sheetName.getLastRowNum(); //Get the number of rows in the sheet
-        Row rowCells = sheetName.getRow(0); //Get the first row to determine the number of columns
-        int columnCount = rowCells.getLastCellNum(); //Get the number of columns in the sheet
+        if (sheet == null) {
+            throw new RuntimeException("Sheet NOT FOUND: " + sheetName);
+        }
+
+        int rowCount = sheet.getLastRowNum();
+        int columnCount = sheet.getRow(0).getLastCellNum();
+
+        String[][] data = new String[rowCount][columnCount];
 
         DataFormatter formatter = new DataFormatter();
-        String testData[][] = new String[rowRows][columnCount];
 
-        for (int i = 1; i <= rowRows; i++) { //Loop through the rows, starting from 1 to skip the header
-            Row row = sheetName.getRow(i); //Get the current row
-            for (int j = 0; j < columnCount; j++) { //Loop through the columns
-                Cell cell = row.getCell(j); //Get the current cell
-                testData[i - 1][j] = formatter.formatCellValue(cell); //Store the cell value in the testData array, using DataFormatter to handle different cell types
+        for (int i = 1; i <= rowCount; i++) {
+            Row row = sheet.getRow(i);
+
+            for (int j = 0; j < columnCount; j++) {
+                Cell cell = row.getCell(j);
+                data[i - 1][j] = formatter.formatCellValue(cell);
             }
         }
 
-
-        return testData; //Return the test data array
+        workbook.close();
+        return data;
     }
+
 }
+
+
 
 

@@ -62,6 +62,7 @@ public class FillInInventoryForm {
 
     @FindBy(id = "breakdown-warranty-value")
     WebElement breakdownWarrantyValue;
+
     @FindBy(id = "warranty-1yr")
     WebElement warranty1yrOption;
 
